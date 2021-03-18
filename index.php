@@ -1,3 +1,48 @@
+<?php
+$errors = '';
+$myemail = 'richard@codedad.ca';
+if (empty($_POST['name'])  ||
+   empty($_POST['email']) ||
+   empty($_POST['subject']) ||
+   empty($_POST['message'])) {
+    $errors .= "\n Error: all fields are required";
+}
+
+$name = $_POST['name'];
+$email_address = $_POST['email'];
+$subject = $_POST['subject'];
+$message = $_POST['message'];
+
+if (!preg_match(
+    "/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/i",
+    $email_address
+)) {
+    $errors .= "\n Error: Invalid email address";
+}
+
+if (empty($errors)) {
+    $to = $myemail;
+
+    $email_subject = "Contact form submission: $name";
+
+    $email_body = "You have received a new message. ".
+
+" Here are the details:\n Name: $name \n ".
+
+"Email: $email_address\n Message \n $message";
+
+    $headers = "From: $myemail\n";
+
+    $headers .= "Reply-To: $email_address";
+
+    mail($to, $email_subject, $email_body, $headers);
+
+    //redirect to the 'thank you' page
+
+    $message1 = "Your Message has been sent";
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -44,7 +89,7 @@
                                 <a class="nav-link" href="#contact">Contact</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Resume</a>
+                                <a class="nav-link" href="pages/blog/wordpress/">BLOG</a>
                             </li>
                         </ul>
                     </div>
@@ -63,9 +108,8 @@
                             <div style="" class="col-xs-12">
                                 <div class="row">
                                 <div style="padding-right: 0;" class="col-xs-12 headline">
-                                    <h1 class="heading-primary--sub text-5xl">Hi, My name is Richard</h1>
                                     <div class="container">
-                                    <p>I'm a <span class="typed-text"></span><span class="cursor">&nbsp;</span></p>
+                                    <p><span class="typed-text"></span><span class="cursor">&nbsp;</span></p>
                                     </div>
                                 </div>
                                 </div>
@@ -439,7 +483,7 @@
                                             <th scope="row">2</th>
                                             <td><a href="#">Sapiente autem cum doloribus eius</a></td>
                                             <td>PHP</td>
-                                            <td>04-10-2018</td>
+                                            <td>04-10-2019</td>
                                         </tr>
                                         <tr>
                                             <th scope="row">3</th>
@@ -451,13 +495,13 @@
                                             <th scope="row">4</th>
                                             <td><a href="#">Libero expedita esse debitis fuga</a></td>
                                             <td>Angular</td>
-                                            <td>01-01-2018</td>
+                                            <td>01-01-2019</td>
                                         </tr>
                                         <tr>
                                             <th scope="row">5</th>
                                             <td><a href="#">Lsoluta tenetur quibusdam commodi.</a></td>
                                             <td>JavaScript</td>
-                                            <td>25-10-2017</td>
+                                            <td>25-10-2019</td>
                                         </tr>
                                         <tr>
                                             <th scope="row">6</th>
@@ -469,7 +513,7 @@
                                             <th scope="row">7</th>
                                             <td><a href="#">Voluptatibus nostrum neque vel quas</a></td>
                                             <td>React</td>
-                                            <td>02-11-2018</td>
+                                            <td>02-11-2019</td>
                                         </tr>
                                         <tr>
                                             <th scope="row">1</th>
@@ -487,7 +531,7 @@
                                             <th scope="row">1</th>
                                             <td><a href="#">Itaque suscipit debitis perferendis.</a></td>
                                             <td>PHP</td>
-                                            <td>01-08-2017</td>
+                                            <td>01-08-2019</td>
                                         </tr>
 
                                     </tbody>
@@ -527,7 +571,7 @@
                                     <use xlink:href="img/SVG/symbol-defs.svg#icon-embed"></use>
                                 </svg>
                             </div>
-                            <span class="counter__count">3456</span>
+                            <span class="counter__count">24835</span>
                             <p class="counter__title">Lines of code</p>
                         </div>
                     </div>
@@ -538,7 +582,7 @@
                                     <use xlink:href="img/SVG/symbol-defs.svg#icon-github"></use>
                                 </svg>
                             </div>
-                            <span class="counter__count">22</span>
+                            <span class="counter__count">187</span>
                             <p class="counter__title">Projects done</p>
                         </div>
                     </div>
@@ -549,7 +593,7 @@
                                     <use xlink:href="img/SVG/symbol-defs.svg#icon-edit"></use>
                                 </svg>
                             </div>
-                            <span class="counter__count">43</span>
+                            <span class="counter__count">247</span>
                             <p class="counter__title">Articles written</p>
                         </div>
                     </div>
@@ -560,7 +604,7 @@
                                     <use xlink:href="img/SVG/symbol-defs.svg#icon-sun"></use>
                                 </svg>
                             </div>
-                            <span class="counter__count">18</span>
+                            <span class="counter__count">33</span>
                             <p class="counter__title">Years lived</p>
                         </div>
                     </div>
@@ -572,18 +616,18 @@
                 <div class="row justify-content-center">
                     <div class="col-md-10 col-lg-8">
                         <h2 class="heading-secondary ">Contact me</h2>
-                        <form>
+                        <form method=”POST” enctype=”multipart/form-data” name=”EmailForm” action=”mailto:richard@codedad.ca”>
                             <div class="form-group">
                                 <label for="Username">Username</label>
-                                <input required type="text" class="form-control" id="Username">
+                                <input required type="text" name="name" class="form-control" id="Username">
                             </div>
                             <div class="form-group">
                                 <label for="Email">Email</label>
-                                <input required type="email" class="form-control" id="Email">
+                                <input required type="email" name="email" class="form-control" id="Email">
                             </div>
                             <div class="form-group">
                                 <label for="subject">Subject</label>
-                                <input required type="text" class="form-control" id="subject">
+                                <input required type="text"  class="form-control" id="subject">
                             </div>
 
                             <div class="form-group">
@@ -597,256 +641,13 @@
                                     <use xlink:href="./img/SVG/symbol-defs.svg#icon-paper-plane"></use>
                                 </svg></button>
                         </form>
+                        <?php echo $message1 ?>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="blog-section">
-            <div class="container">
-
-                <h2 class="heading-secondary">Latest from blog</h2>
-
-                <div class="row justify-content-center">
-
-
-                    <div class="col-sm-12 col-md-6 col-lg-4 mb-5">
-                        <div class="blog">
-                            <div class="blog__img-box">
-                                <img src="./img/blog-1.jpg" alt="Blog 1" class="blog__img img-fluid">
-                                <div class="blog__tags-box">
-                                    <a href="#" class="blog__tag">Life</a>
-                                    <a href="#" class="blog__tag">Philosophy</a>
-                                </div>
-                            </div>
-                            <div class="blog__content-box">
-                                <div class="blog__meta">
-                                    <a href="#" class="blog__author">
-                                        <svg class="icon blog__author-icon">
-                                            <use xlink:href="img/SVG/symbol-defs.svg#icon-user"></use>
-                                        </svg>
-                                        Xavier James</a>
-                                    <a href="#" class="blog__date">
-                                        <svg class="icon blog__date-icon">
-                                            <use xlink:href="img/SVG/symbol-defs.svg#icon-calendar"></use>
-                                        </svg>
-                                        14 Oct 2020</a>
-                                </div>
-                                <h3 class="heading-tertiary">Lmet consectetur adipisicing elit.</h3>
-                                <p class="blog__details"> Architecto enim sunt amet doloremque ratione
-                                    tenetur
-                                    cum cupiditate? Iure corrupti, expedita sed laboriosam qui ipsum ex
-                                    minus
-                                    aspernatur
-                                    quaerat porro amet <span>...</span></p>
-                                <div class="blog__cta-box text-center">
-                                    <a href="#" class="btn btn--ghost blog__btn">Read more <svg
-                                            class="icon btn__icon-right">
-                                            <use xlink:href="img/SVG/symbol-defs.svg#icon-arrow_right_alt"></use>
-                                        </svg></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12 col-md-6 col-lg-4 mb-5">
-                        <div class="blog">
-                            <div class="blog__img-box">
-                                <img src="./img/blog-2.jpg" alt="Blog 2" class="blog__img img-fluid">
-                                <div class="blog__tags-box">
-                                    <a href="#" class="blog__tag">Programming</a>
-                                    <a href="#" class="blog__tag">HTML</a>
-                                    <a href="#" class="blog__tag">CSS</a>
-                                </div>
-                            </div>
-                            <div class="blog__content-box">
-                                <div class="blog__meta">
-                                    <a href="#" class="blog__author">
-                                        <svg class="icon blog__author-icon">
-                                            <use xlink:href="img/SVG/symbol-defs.svg#icon-user"></use>
-                                        </svg>
-                                        Xavier James</a>
-                                    <a href="#" class="blog__date">
-                                        <svg class="icon blog__date-icon">
-                                            <use xlink:href="img/SVG/symbol-defs.svg#icon-calendar"></use>
-                                        </svg>
-                                        20 Sep 2019</a>
-                                </div>
-                                <h3 class="heading-tertiary">Reprehenderit dolores delectus.</h3>
-                                <p class="blog__details"> Architecto enim sunt amet doloremque ratione
-                                    tenetur
-                                    cum cupiditate? Iure corrupti, expedita sed laboriosam qui ipsum ex
-                                    minus
-                                    aspernatur
-                                    quaerat porro amet <span>...</span></p>
-                                <div class="blog__cta-box text-center">
-                                    <a href="#" class="btn btn--ghost blog__btn">Read more <svg
-                                            class="icon btn__icon-right">
-                                            <use xlink:href="img/SVG/symbol-defs.svg#icon-arrow_right_alt"></use>
-                                        </svg></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12 col-md-6 col-lg-4 mb-5">
-                        <div class="blog">
-                            <div class="blog__img-box">
-                                <img src="./img/blog-3.jpg" alt="Blog 3" class="blog__img img-fluid">
-                                <div class="blog__tags-box">
-                                    <a href="#" class="blog__tag">PHP</a>
-                                </div>
-                            </div>
-                            <div class="blog__content-box">
-                                <div class="blog__meta">
-                                    <a href="#" class="blog__author">
-                                        <svg class="icon blog__author-icon">
-                                            <use xlink:href="img/SVG/symbol-defs.svg#icon-user"></use>
-                                        </svg>
-                                        Xavier James</a>
-                                    <a href="#" class="blog__date">
-                                        <svg class="icon blog__date-icon">
-                                            <use xlink:href="img/SVG/symbol-defs.svg#icon-calendar"></use>
-                                        </svg>
-                                        22 Jan 2019</a>
-                                </div>
-                                <h3 class="heading-tertiary">Culpa voluptate soluta maxim</h3>
-                                <p class="blog__details"> Architecto enim sunt amet doloremque ratione
-                                    tenetur
-                                    cum cupiditate? Iure corrupti, expedita sed laboriosam qui ipsum ex
-                                    minus
-                                    aspernatur
-                                    quaerat porro amet <span>...</span></p>
-                                <div class="blog__cta-box text-center">
-                                    <a href="#" class="btn btn--ghost blog__btn">Read more <svg
-                                            class="icon btn__icon-right">
-                                            <use xlink:href="img/SVG/symbol-defs.svg#icon-arrow_right_alt"></use>
-                                        </svg></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12 col-md-6 col-lg-4 mb-5">
-                        <div class="blog">
-                            <div class="blog__img-box">
-                                <img src="./img/blog-4.jpg" alt="Blog 4" class="blog__img img-fluid">
-                                <div class="blog__tags-box">
-                                    <a href="#" class="blog__tag">Frontend</a>
-                                    <a href="#" class="blog__tag">JavaScript</a>
-                                </div>
-                            </div>
-                            <div class="blog__content-box">
-                                <div class="blog__meta">
-                                    <a href="#" class="blog__author">
-                                        <svg class="icon blog__author-icon">
-                                            <use xlink:href="img/SVG/symbol-defs.svg#icon-user"></use>
-                                        </svg>
-                                        Xavier James</a>
-                                    <a href="#" class="blog__date">
-                                        <svg class="icon blog__date-icon">
-                                            <use xlink:href="img/SVG/symbol-defs.svg#icon-calendar"></use>
-                                        </svg>
-                                        22 Jan 2019</a>
-                                </div>
-                                <h3 class="heading-tertiary">Laspernatur officiis ratione </h3>
-                                <p class="blog__details"> Architecto enim sunt amet doloremque ratione
-                                    tenetur
-                                    cum cupiditate? Iure corrupti, expedita sed laboriosam qui ipsum ex
-                                    minus
-                                    aspernatur
-                                    quaerat porro amet <span>...</span></p>
-                                <div class="blog__cta-box text-center">
-                                    <a href="#" class="btn btn--ghost blog__btn">Read more <svg
-                                            class="icon btn__icon-right">
-                                            <use xlink:href="img/SVG/symbol-defs.svg#icon-arrow_right_alt"></use>
-                                        </svg></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12 col-md-6 col-lg-4 mb-5">
-                        <div class="blog">
-                            <div class="blog__img-box">
-                                <img src="./img/blog-5.jpg" alt="Blog 5" class="blog__img img-fluid">
-                                <div class="blog__tags-box">
-                                    <a href="#" class="blog__tag">life</a>
-                                    <a href="#" class="blog__tag">Relationships</a>
-                                </div>
-                            </div>
-                            <div class="blog__content-box">
-                                <div class="blog__meta">
-                                    <a href="#" class="blog__author">
-                                        <svg class="icon blog__author-icon">
-                                            <use xlink:href="img/SVG/symbol-defs.svg#icon-user"></use>
-                                        </svg>
-                                        Xavier James</a>
-                                    <a href="#" class="blog__date">
-                                        <svg class="icon blog__date-icon">
-                                            <use xlink:href="img/SVG/symbol-defs.svg#icon-calendar"></use>
-                                        </svg>
-                                        22 Jan 2019</a>
-                                </div>
-                                <h3 class="heading-tertiary">Quasi earum Molestiae officiis</h3>
-                                <p class="blog__details"> Architecto enim sunt amet doloremque ratione
-                                    tenetur
-                                    cum cupiditate? Iure corrupti, expedita sed laboriosam qui ipsum ex
-                                    minus
-                                    aspernatur
-                                    quaerat porro amet <span>...</span></p>
-                                <div class="blog__cta-box text-center">
-                                    <a href="#" class="btn btn--ghost blog__btn">Read more <svg
-                                            class="icon btn__icon-right">
-                                            <use xlink:href="img/SVG/symbol-defs.svg#icon-arrow_right_alt"></use>
-                                        </svg></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12 col-md-6 col-lg-4 mb-5">
-                        <div class="blog">
-                            <div class="blog__img-box">
-                                <img src="./img/blog-6.jpg" alt="Blog 6" class="blog__img img-fluid">
-                                <div class="blog__tags-box">
-                                    <a href="#" class="blog__tag">Life</a>
-                                </div>
-                            </div>
-                            <div class="blog__content-box">
-                                <div class="blog__meta">
-                                    <a href="#" class="blog__author">
-                                        <svg class="icon blog__author-icon">
-                                            <use xlink:href="img/SVG/symbol-defs.svg#icon-user"></use>
-                                        </svg>
-                                        Xavier James</a>
-                                    <a href="#" class="blog__date">
-                                        <svg class="icon blog__date-icon">
-                                            <use xlink:href="img/SVG/symbol-defs.svg#icon-calendar"></use>
-                                        </svg>
-                                        21 Oct 2017</a>
-                                </div>
-                                <h3 class="heading-tertiary">Reiciendis blanditiis maxime</h3>
-                                <p class="blog__details"> Architecto enim sunt amet doloremque ratione
-                                    tenetur
-                                    cum cupiditate? Iure corrupti, expedita sed laboriosam qui ipsum ex
-                                    minus
-                                    aspernatur
-                                    quaerat porro amet <span>...</span></p>
-                                <div class="blog__cta-box text-center">
-                                    <a href="#" class="btn btn--ghost blog__btn">Read more <svg
-                                            class="icon btn__icon-right">
-                                            <use xlink:href="img/SVG/symbol-defs.svg#icon-arrow_right_alt"></use>
-                                        </svg></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-12 mb-2 mt-n1 text-center"><a href="#" class="btn btn--full">Show all</a></div>
-                </div>
-            </div>
-        </section>
+        
         <footer class="footer">
             <div class="container">
                 <div class="row justify-content-center ">
@@ -892,11 +693,7 @@
 
                         </div>
                     </div>
-                    <div class="col-12 text-center">
-                        <p class="footer__credits font-1rem">Template <a
-                                href="https://github.com/0xaliraza/0xfolio">0xFolio</a>,
-                            designed with ❤️ by <a href="https://0xali.com">Ali Raza</a>.</p>
-                    </div>
+                    
                     <div class="col-12 mt-auto">
                         <nav class="nav footer__nav justify-content-around">
                             <a class="nav-link active" href="#">Home</a>
